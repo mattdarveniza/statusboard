@@ -6,13 +6,14 @@ import Clock from './components/Clock';
 import BoardSection from './components/BoardSection';
 
 const Frame = styled.main`
-  height: 100%;
-  background: ${bgColor};
-  color: ${textColor};
-  padding: 2em;
   display: grid;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 2em;
   grid-gap: 2em;
   grid-template: repeat(3, 1fr) / repeat(4, 1fr);
+  background: ${bgColor};
+  color: ${textColor};
 `;
 
 const App = () => (
