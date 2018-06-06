@@ -1,21 +1,30 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import styled from 'styled-components';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+import { bgColor, textColor } from './consts';
+import Clock from './components/Clock';
+import BoardSection from './components/BoardSection';
+
+const Frame = styled.main`
+  height: 100%;
+  background: ${bgColor};
+  color: ${textColor};
+  padding: 2em;
+  display: grid;
+  grid-gap: 2em;
+  grid-template: repeat(3, 1fr) / repeat(4, 1fr);
+`;
+
+const App = () => (
+  <Frame>
+    <Clock timezone="Australia/Melbourne" position={[1, 1]} />
+    <Clock timezone="Australia/Brisbane" position={[2, 1]} />
+    <Clock timezone="America/Chicago" position={[3, 1]} />
+    <BoardSection>Sample Board</BoardSection>
+    <BoardSection>Sample Board</BoardSection>
+    <BoardSection>Sample Board</BoardSection>
+    <BoardSection>Sample Board</BoardSection>
+  </Frame>
+);
 
 export default App;

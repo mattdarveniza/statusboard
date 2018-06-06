@@ -3,14 +3,36 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "flow-bin": "^0.73.0",
+    "moment-timezone": "^0.5.17",
     "react": "^16.4.0",
+    "react-clock": "^2.3.0",
     "react-dom": "^16.4.0",
-    "react-scripts": "1.1.4"
+    "react-scripts": "^2.0.0-next.66cc7a90",
+    "styled-components": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-babel": "^7.0.2",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-flowtype": "^2.49.3"
+  },
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions",
+      "last 1 safari versions"
+    ],
+    "production": [
+      "last 2 chrome versions",
+      "last 1 safari versions"
+    ]
   }
 }
