@@ -10,6 +10,7 @@ module.exports = {
   ],
   env: {
     browser: true,
+    jest: true,
   },
   rules: {
     'react/jsx-filename-extension': 0,
@@ -25,5 +26,7 @@ module.exports = {
     }],
     'babel/quotes': ['error', 'single', { avoidEscape: true }],
     'quotes': 0,
+    'import/prefer-default-export': 0,
+    'function-paren-newline': ['error', 'consistent'],
   }
 }

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { bgColor, textColor } from './consts';
 import Clock from './components/Clock';
 import BoardSection from './components/BoardSection';
+import PTVDepartures from './components/PTVDepartures';
 
 const Frame = styled.main`
   display: grid;
@@ -21,6 +22,8 @@ const App = () => (
     <Clock timezone="Australia/Melbourne" position={[1, 1]} />
     <Clock timezone="Australia/Brisbane" position={[2, 1]} />
     <Clock timezone="America/Chicago" position={[3, 1]} />
+    <PTVDepartures routeTypeId={0} stopId={1214} position={[1, 2]} />
+    {/* <PTVDepartures routeTypeId={1} stopId={2604} position={[1, 3]} /> */}
     <BoardSection>Sample Board</BoardSection>
     <BoardSection>Sample Board</BoardSection>
     <BoardSection>Sample Board</BoardSection>
