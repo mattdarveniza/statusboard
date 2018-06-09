@@ -6,7 +6,7 @@ Currently functional boards:
   * Timezone Clock
   * PTV Departures Board
 
-Planned future boards
+Planned future boards:
   * Current/forecast weather
   * Weather radar
   * BuildKite bulid statuses
