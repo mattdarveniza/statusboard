@@ -31,10 +31,10 @@ const API_VERSION = '/v3';
 const ARGS = `?expand=stop&expand=direction&expand=disruption&devid=${DEV_ID}`;
 
 const routeTypeMap = [
-  <MetroTrainIcon />,
-  <TramIcon />,
-  <BusIcon />,
-  <VLineIcon />,
+  <MetroTrainIcon className="train" />,
+  <TramIcon className="tram" />,
+  <BusIcon className="bus" />,
+  <VLineIcon className="vline" />,
 ];
 
 type Props = {

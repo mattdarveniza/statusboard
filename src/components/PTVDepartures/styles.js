@@ -64,6 +64,22 @@ const DepartureSection = BoardSection.extend`
   .duration-number {
     font-size: 2em;
   }
+
+  .train {
+    fill: #4fb8ff
+  }
+
+  .tram {
+    fill: #71ce45
+  }
+
+  .bus {
+    fill: #ffac15
+  }
+
+  .vline {
+    fill: #cc3aae
+  }
 `;
 
 export default DepartureSection;
