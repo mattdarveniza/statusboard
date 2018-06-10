@@ -23,7 +23,7 @@ const App = () => (
     <Clock timezone="Australia/Brisbane" position={[2, 1]} />
     <Clock timezone="America/Chicago" position={[3, 1]} />
     <PTVDepartures routeTypeId={0} stopId={1214} position={[1, 2]} />
-    <PTVDepartures routeTypeId={1} stopId={2604} position={[1, 3]} />
+    <PTVDepartures routeTypeId={1} stopId={2604} position={[1, 3, 2, 5]} />
     <BoardSection>Sample Board</BoardSection>
     <BoardSection>Sample Board</BoardSection>
     <BoardSection>Sample Board</BoardSection>

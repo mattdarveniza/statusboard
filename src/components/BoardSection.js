@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 import { borderRadius } from '../consts';
 
-type Position = [number, number];
+type Position = [number, number, ?number, ?number];
 
 const BoardSection = styled.section`
   border-radius: ${borderRadius}
@@ -14,7 +14,11 @@ const BoardSection = styled.section`
   padding: 1.5em;
 
   ${({ position }: { position: Position }) => position && css`
-    grid-area: ${position[0]} / ${position[1]} / ${position[0] + 1} / ${position[1] + 1};
+    grid-area:
+      ${position[0]}
+      / ${position[1]}
+      / ${position[2] || position[0] + 1}
+      / ${position[3] || position[1] + 1};
   `}
 `;
 
