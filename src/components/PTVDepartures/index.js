@@ -211,6 +211,7 @@ class PTVDeparturesBoard extends Component<Props, State> {
     );
   }
 
+  // FIXME: Break down into a few more components, getting a bit unweildy
   render() {
     return (
       <DepartureSection position={this.props.position}>
@@ -220,30 +221,32 @@ class PTVDeparturesBoard extends Component<Props, State> {
               {routeTypeMap[this.props.routeTypeId]}
               <h1>Departures from {this.getStopName()}</h1>
             </header>
-            {this.getNextDepartures().map(departures => (
-              <section className="direction" key={departures[0].run_id}>
-                <h2>To {this.getDirectionName(departures[0].direction_id)}</h2>
-                {departures.map((departure, i) => (
-                  <div
-                    className={`departing-duration${i === 0 ? ' next' : ''}`}
-                    key={departure ? departure.scheduled_departure_utc : i}
-                  >
-                    {departure
-                      ? (<>
-                        {this.getDepartureDuration(departure)}
-                        {departure.estimated_departure_utc &&
-                          <WifiIcon className="live-indicator" />
-                        }
-                        {this.disruptionsInDirection(departure.direction_id) &&
-                          <WarningIcon className="disruption-indicator" />
-                        }
-                      </>)
-                      : '&ndash;'
-                    }
-                  </div>
-                ))}
-              </section>
-            ))}
+            <section className="departures">
+              {this.getNextDepartures().map(departures => (
+                <section className="direction" key={departures[0].run_id}>
+                  <h2>To {this.getDirectionName(departures[0].direction_id)}</h2>
+                  {departures.map((departure, i) => (
+                    <div
+                      className={`departing-duration${i === 0 ? ' next' : ''}`}
+                      key={departure ? departure.scheduled_departure_utc : i}
+                    >
+                      {departure
+                        ? (<>
+                          {this.getDepartureDuration(departure)}
+                          {departure.estimated_departure_utc &&
+                            <WifiIcon className="live-indicator" />
+                          }
+                          {this.disruptionsInDirection(departure.direction_id) &&
+                            <WarningIcon className="disruption-indicator" />
+                          }
+                        </>)
+                        : '&ndash;'
+                      }
+                    </div>
+                  ))}
+                </section>
+              ))}
+            </section>
           </>
         )}
       </DepartureSection>

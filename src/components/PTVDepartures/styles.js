@@ -1,16 +1,16 @@
 import BoardSection from '../BoardSection';
 
 const DepartureSection = BoardSection.extend`
-  display: grid;
-  grid-gap: 1em;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   header {
-    grid-column: 1 / 3;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 1em;
   }
 
   h1 {
@@ -22,6 +22,13 @@ const DepartureSection = BoardSection.extend`
     font-size: 0.75em;
     text-align: center;
     margin: 0;
+  }
+
+  .departures {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: 1;
+    grid-gap: 1em;
   }
 
   .direction {
