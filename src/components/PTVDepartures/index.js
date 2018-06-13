@@ -1,14 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
-import type { Element } from 'react';
-import moment from 'moment-timezone';
 
 import { ptvHash } from '../../hash';
+import DirectionDepartures from './departure';
 import DepartureSection from './styles';
 
-import { ReactComponent as WifiIcon } from '../../images/WiFi.svg';
-import { ReactComponent as WarningIcon } from '../../images/Warning.svg';
 import { ReactComponent as MetroTrainIcon } from '../../images/TrainMetro.svg';
 import { ReactComponent as TramIcon } from '../../images/TrainLightRail.svg';
 import { ReactComponent as BusIcon } from '../../images/Bus.svg';
@@ -44,7 +41,7 @@ type Props = {
   routeId: ?number,
 }
 
-type Departure = {|
+export type Departure = {|
   run_id: number,
   direction_id: number,
   scheduled_departure_utc: string,
@@ -183,21 +180,6 @@ class PTVDeparturesBoard extends Component<Props, State> {
     return stop ? stop.stop_name : 'Unknown';
   }
 
-  getDepartureDuration({
-    estimated_departure_utc: estimated,
-    scheduled_departure_utc: scheduled,
-  }: Departure): Element<any> {
-    const departureTime = estimated || scheduled;
-    const duration = moment(departureTime).diff(moment(this.state.now), 'minutes');
-    return (
-      <>
-        <span className="duration-number">
-          {duration === 0 ? 'NOW' : duration}
-        </span> {duration !== 0 && 'm'}
-      </>
-    );
-  }
-
   disruptionsInDirection(directionId: number) {
     const direction = this.state.directions[directionId.toString()];
     if (!direction) {
@@ -211,7 +193,6 @@ class PTVDeparturesBoard extends Component<Props, State> {
     );
   }
 
-  // FIXME: Break down into a few more components, getting a bit unweildy
   render() {
     return (
       <DepartureSection position={this.props.position}>
@@ -223,28 +204,15 @@ class PTVDeparturesBoard extends Component<Props, State> {
             </header>
             <section className="departures">
               {this.getNextDepartures().map(departures => (
-                <section className="direction" key={departures[0].run_id}>
-                  <h2>To {this.getDirectionName(departures[0].direction_id)}</h2>
-                  {departures.map((departure, i) => (
-                    <div
-                      className={`departing-duration${i === 0 ? ' next' : ''}`}
-                      key={departure ? departure.scheduled_departure_utc : i}
-                    >
-                      {departure
-                        ? (<>
-                          {this.getDepartureDuration(departure)}
-                          {departure.estimated_departure_utc &&
-                            <WifiIcon className="live-indicator" />
-                          }
-                          {this.disruptionsInDirection(departure.direction_id) &&
-                            <WarningIcon className="disruption-indicator" />
-                          }
-                        </>)
-                        : '&ndash;'
-                      }
-                    </div>
-                  ))}
-                </section>
+                <DirectionDepartures
+                  key={departures[0] ? departures[0].run_id : null}
+                  name={this.getDirectionName(departures[0].direction_id)}
+                  departures={departures}
+                  now={this.state.now}
+                  disruptions={
+                    this.disruptionsInDirection(departures[0].direction_id)
+                  }
+                />
               ))}
             </section>
           </>
