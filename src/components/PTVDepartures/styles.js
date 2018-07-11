@@ -49,13 +49,9 @@ const DepartureSection = BoardSection.extend`
       display: inline-block;
       height: 0.75em;
       vertical-align: text-top;
-
-      &.not-live-indicator {
-        transform: translateY(-0.25em);
-      }
+      transform: translateY(-0.25em);
 
       &.disruption-indicator {
-        transform: translateY(-0.25em);
         fill: #ffdf13;
       }
     }

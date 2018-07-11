@@ -5,7 +5,7 @@ import type { Element } from 'react';
 import moment from 'moment-timezone';
 
 // $FlowFixMe
-import { ReactComponent as ReportIcon } from '../../images/Report.svg';
+import { ReactComponent as ClockIcon } from '../../images/Clock.svg';
 // $FlowFixMe
 import { ReactComponent as WarningIcon } from '../../images/Warning.svg';
 
@@ -53,7 +53,7 @@ const DirectionDepartures = ({
           ? (<>
             {getDepartureDuration(departure, now)}
             {!departure.estimated_departure_utc &&
-              <ReportIcon className="not-live-indicator" />
+              <ClockIcon className="scheduled-indicator" />
             }
             {disruptions &&
               <WarningIcon className="disruption-indicator" />
