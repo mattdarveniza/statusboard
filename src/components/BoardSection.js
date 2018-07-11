@@ -1,7 +1,7 @@
 // @flow
 import styled, { css } from 'styled-components';
 
-import { borderRadius } from '../consts';
+import { borderRadius, panelBgColor } from '../consts';
 
 type Position = [number, number, ?number, ?number];
 
@@ -10,7 +10,7 @@ const BoardSection = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #232323;
+  background: ${panelBgColor};
   padding: 1.5em;
 
   ${({ position }: { position: Position }) => position && css`

@@ -6,9 +6,13 @@ import { ptvHash } from '../../hash';
 import DirectionDepartures from './departure';
 import DepartureSection from './styles';
 
+// $FlowFixMe
 import { ReactComponent as MetroTrainIcon } from '../../images/TrainMetro.svg';
+// $FlowFixMe
 import { ReactComponent as TramIcon } from '../../images/TrainLightRail.svg';
+// $FlowFixMe
 import { ReactComponent as BusIcon } from '../../images/Bus.svg';
+// $FlowFixMe
 import { ReactComponent as VLineIcon } from '../../images/Train.svg';
 
 const DEV_ID = process.env.REACT_APP_PTV_DEV_ID;
@@ -22,10 +26,11 @@ if (typeof API_KEY !== 'string') {
   throw TypeError('Environment var REACT_APP_PTV_API_KEY not of correct type');
 }
 
-const DOMAIN = 'http://timetableapi.ptv.vic.gov.au';
+const DOMAIN = '//timetableapi.ptv.vic.gov.au';
 const API_VERSION = '/v3';
 
-const ARGS = `?expand=stop&expand=direction&expand=disruption&devid=${DEV_ID}`;
+const MAX_RESULTS = 5;
+const ARGS = `?max_results=${MAX_RESULTS}&expand=stop&expand=direction&expand=disruption&devid=${DEV_ID}`;
 
 const routeTypeMap = [
   <MetroTrainIcon className="train" />,
@@ -147,26 +152,22 @@ class PTVDeparturesBoard extends Component<Props, State> {
     });
   }
 
-  getNextDepartures() {
+  getNextDepartures(): Array<[number, Array<Departure>]> {
     const {
       departures,
       directions,
       now,
     } = this.state;
-    // $FlowFixMe Object.values() is borked and doesn't allow strict types
-    const directionsList : Array<Direction> = Object.values(directions);
-    const nextDepartures = directionsList.map(
-      (direction) => {
-        const index = departures.findIndex(
-          d => d.direction_id === direction.direction_id
-          && new Date(d.estimated_departure_utc || d.scheduled_departure_utc) > now,
-        );
-        return [
-          departures[index],
-          departures.length === index + 1 ? null : departures[index + 1],
-        ];
-      },
-    ).filter(Boolean);
+    const nextDepartures = Object.keys(directions)
+      .map(d => parseInt(d, 0))
+      .map(directionId => ([
+        directionId,
+        departures.filter(d => (
+          d.direction_id === directionId
+          && new Date(d.estimated_departure_utc || d.scheduled_departure_utc) > now
+        )).slice(0, 2),
+      ]));
+
     return nextDepartures;
   }
 
@@ -203,15 +204,13 @@ class PTVDeparturesBoard extends Component<Props, State> {
               <h1>Departures from {this.getStopName()}</h1>
             </header>
             <section className="departures">
-              {this.getNextDepartures().map(departures => (
+              {this.getNextDepartures().map(([directionId, departures]) => (
                 <DirectionDepartures
-                  key={departures[0] ? departures[0].run_id : null}
-                  name={this.getDirectionName(departures[0].direction_id)}
+                  key={directionId}
+                  name={this.getDirectionName(directionId)}
                   departures={departures}
                   now={this.state.now}
-                  disruptions={
-                    this.disruptionsInDirection(departures[0].direction_id)
-                  }
+                  disruptions={this.disruptionsInDirection(directionId)}
                 />
               ))}
             </section>

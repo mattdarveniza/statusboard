@@ -4,13 +4,15 @@ import React from 'react';
 import type { Element } from 'react';
 import moment from 'moment-timezone';
 
-import { ReactComponent as WifiIcon } from '../../images/WiFi.svg';
+// $FlowFixMe
+import { ReactComponent as ReportIcon } from '../../images/Report.svg';
+// $FlowFixMe
 import { ReactComponent as WarningIcon } from '../../images/Warning.svg';
 
 import type { Departure } from '.';
 
 type Props = {
-  departures: Array<Departure | null>,
+  departures: Array<Departure>,
   now: Date,
   name: string,
   disruptions: boolean,
@@ -28,8 +30,8 @@ function getDepartureDuration(
   return (
       <>
         <span className="duration-number">
-          {duration === 0 ? 'NOW' : duration}
-        </span> {duration !== 0 && 'm'}
+          {duration}
+        </span> m
       </>
   );
 }
@@ -50,8 +52,8 @@ const DirectionDepartures = ({
         {departure
           ? (<>
             {getDepartureDuration(departure, now)}
-            {departure.estimated_departure_utc &&
-              <WifiIcon className="live-indicator" />
+            {!departure.estimated_departure_utc &&
+              <ReportIcon className="not-live-indicator" />
             }
             {disruptions &&
               <WarningIcon className="disruption-indicator" />

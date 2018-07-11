@@ -50,8 +50,8 @@ const DepartureSection = BoardSection.extend`
       height: 0.75em;
       vertical-align: text-top;
 
-      &.live-indicator {
-        transform: translateY(-0.25em) rotate(45deg);
+      &.not-live-indicator {
+        transform: translateY(-0.25em);
       }
 
       &.disruption-indicator {
