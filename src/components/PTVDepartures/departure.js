@@ -26,11 +26,18 @@ function getDepartureDuration(
   now: Date,
 ): Element<any> {
   const departureTime = estimated || scheduled;
-  const duration = moment(departureTime).diff(moment(now), 'minutes');
+  const duration = moment.duration(moment(departureTime).diff(moment(now)));
   return (
       <>
+        {duration.asHours() >= 1 && (
+          <>
+            <span className="duration-number">
+              {Math.round(duration.asHours())}
+            </span> h&nbsp;
+          </>
+        )}
         <span className="duration-number">
-          {duration}
+          {duration.minutes()}
         </span> m
       </>
   );
