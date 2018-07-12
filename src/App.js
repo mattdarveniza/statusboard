@@ -25,7 +25,7 @@ const App = () => (
     <Clock timezone="America/Chicago" position={[3, 1]} />
     <PTVDepartures routeTypeId={0} stopId={1214} position={[1, 2]} />
     <PTVDepartures routeTypeId={1} stopId={2604} position={[1, 3, 2, 5]} />
-    <BOMRadar id="IDR023.loop.shtml" />
+    <BOMRadar id="IDR023" position={[2, 2, 4, 4]} />
     {/* <BoardSection>Sample Board</BoardSection>
     <BoardSection>Sample Board</BoardSection>
     <BoardSection>Sample Board</BoardSection>
