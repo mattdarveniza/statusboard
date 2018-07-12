@@ -19,7 +19,7 @@ const DepartureSection = BoardSection.extend`
   }
 
   h2 {
-    font-size: 0.75em;
+    font-size: 0.9em;
     text-align: center;
     margin: 0;
   }
