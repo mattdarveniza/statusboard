@@ -43,10 +43,15 @@ class BOMRadarBoard extends Component<Props, State> {
   }
 
   async fetchImageUrls() {
+    // Fetch page and parse as text
     const response = await fetch(`/products/${this.props.id}.loop.shtml`);
     const htmlText = await response.text();
+
+    // Inject contents into a template tag to create a DOM to query
     const template = document.createElement('template');
     template.innerHTML = htmlText.trim();
+
+    // Use queryseletcor and find to find the script tag we're looking for
     const scripts = template.content.querySelectorAll('#content script');
     const imageNamesScript = [...scripts].find(script => (
       script.innerText
@@ -54,6 +59,8 @@ class BOMRadarBoard extends Component<Props, State> {
     if (!imageNamesScript) {
       throw Error('No script with image names found');
     }
+
+    // Parse script into an AST so we can pull out the line fragments needed
     const ast = esprima.parse(imageNamesScript.innerText);
     const imageUrls = ast.body.filter(exp => (
       exp.type === 'ExpressionStatement'
