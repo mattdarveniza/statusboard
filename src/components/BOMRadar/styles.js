@@ -28,7 +28,6 @@ const BOMRadarSection = BoardSection.extend`
       width: 100%;
       height: 100%;
       content: '';
-      /* background: rgba(0, 0, 255, 0.05); */
       background: red;
       z-index: 2;
     }
