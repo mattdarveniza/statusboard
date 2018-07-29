@@ -10,6 +10,7 @@ const BOMRadarSection = BoardSection.extend`
   }
 
   img {
+    filter: invert(100%) grayscale(100%);
     position: absolute;
     top: 0;
     left: 0;
@@ -17,8 +18,26 @@ const BOMRadarSection = BoardSection.extend`
     transform: translateX(-50%);
   }
 
+  .background {
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      content: '';
+      /* background: rgba(0, 0, 255, 0.05); */
+      background: red;
+      z-index: 2;
+    }
+  }
+
   .radar-overlay {
+    filter: none;
     visibility: hidden;
+    opacity: 0.5;
 
     &.active {
       visibility: visible;
