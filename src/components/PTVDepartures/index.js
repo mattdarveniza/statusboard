@@ -182,18 +182,18 @@ class PTVDeparturesBoard extends Component<Props, State> {
   }
 
   disruptionsInDirection(directionId: number) {
-    return false;
-    // FIXME: Disabled until format is fixed
-    // const direction = this.state.directions[directionId.toString()];
-    // if (!direction) {
-    //   return false;
-    // }
-    // return Object.values(this.state.disruptions).some(
-    //   // $FlowFixMe
-    //   (disruption: Disruption) => disruption.directions.some(
-    //     disruptionDirection => disruptionDirection.direction_id === directionId,
-    //   ),
-    // );
+    const direction = this.state.directions[directionId.toString()];
+
+    if (!direction) {
+      return false;
+    }
+
+    return Object.values(this.state.disruptions).some(
+      // $FlowFixMe
+      (disruption: Disruption) => disruption.routes.some(
+        route => route.direction === null || route.direction === directionId,
+      ),
+    );
   }
 
   render() {
