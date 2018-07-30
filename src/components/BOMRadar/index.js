@@ -9,6 +9,7 @@ import BOMRadarSection from './styles';
 const esprima = require('esprima');
 
 const LOOP_INTERVAL_SECONDS = 1;
+const REFRESH_INTERVAL_MINUTES = 5;
 
 type Props = {
   id: string,
@@ -21,7 +22,8 @@ type State = {
 }
 
 class BOMRadarBoard extends Component<Props, State> {
-  radarLoopItervalId: number
+  radarLoopIntervalId: number;
+  refreshIntervalId: number;
 
   constructor() {
     super();
@@ -34,12 +36,17 @@ class BOMRadarBoard extends Component<Props, State> {
 
   componentDidMount() {
     this.fetchImageUrls();
+
+    // refresh images every 5 minutes
+    this.refreshIntervalId = window.setInterval(
+      this.fetchImageUrls.bind(this),
+      REFRESH_INTERVAL_MINUTES * 60 * 1000,
+    );
   }
 
   componentWillUnmount() {
-    if (this.radarLoopItervalId) {
-      window.clearInterval(this.radarLoopItervalId);
-    }
+    window.clearInterval(this.refreshIntervalId);
+    window.clearInterval(this.radarLoopIntervalId);
   }
 
   async fetchImageUrls() {
@@ -75,7 +82,11 @@ class BOMRadarBoard extends Component<Props, State> {
 
   startRadarLoop() {
     if (this.state.imageUrls && this.state.imageUrls.length > 0) {
-      this.radarLoopItervalId = window.setInterval(() => {
+      if (this.radarLoopIntervalId) {
+        window.clearInterval(this.radarLoopIntervalId);
+      }
+
+      this.radarLoopIntervalId = window.setInterval(() => {
         let nextImageIndex = this.state.currentImageIndex + 1;
         if (this.state.imageUrls && nextImageIndex >= this.state.imageUrls.length) {
           nextImageIndex = 0;
