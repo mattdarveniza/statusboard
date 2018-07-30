@@ -5,13 +5,23 @@ board screen. Very much a work in progress.
 Currently functional boards:
   * Timezone Clock
   * PTV Departures Board
+  * BOM Weather Radar
+
+Planned improvements to functional boards:
+  * Timezone Clock:
+    * Alternate rendering mode as a flipboard-digital clock
+    * Improved readability of analogue clock
+    * am/pm indicator, or night/day (6am-6pm) indicator
+  * BOM Weather Radar
+    * Currently relies on the webpack dev server proxy to operate, needs to move
+      to a production-ready proxy such as AWS
 
 Planned future boards:
   * Current/forecast weather
-  * Weather radar
-  * BuildKite bulid statuses
+  * BuildKite build statuses
+  * Jira sprint status (either burndown/up or todo/inprogress/completed
+    breakdown)
   * Bitbucket commit statistics
-  * Jira burndown and in-progress tasks
 
 ## Running Statusboard
 StatusBoard is a frontend-only [create-react-app](https://github.com/facebook/create-react-app)
