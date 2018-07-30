@@ -189,9 +189,17 @@ class PTVDeparturesBoard extends Component<Props, State> {
     return nextDepartures;
   }
 
-  getDirectionName(directionId: number) {
+  getDirectionName(directionId: number, departures: Array<Departure>) {
     const direction = this.state.directions[directionId.toString()];
-    return direction ? direction.direction_name : 'Unknown';
+    const directionName = direction ? direction.direction_name : 'Unknown';
+    if (Object.keys(this.state.routes).length > 1) {
+      const routes = departures
+        .map(departure => this.state.routes[departure.route_id.toString()])
+        .filter((d, i, arr) => d != null && arr.indexOf(d) === i)
+        .map(route => route.route_number);
+      return `${directionName} – ${routes.join(', ')}`;
+    }
+    return directionName;
   }
 
   getStopName() {
@@ -227,7 +235,7 @@ class PTVDeparturesBoard extends Component<Props, State> {
               {this.getNextDepartures().map(([directionId, departures]) => (
                 <DirectionDepartures
                   key={directionId}
-                  name={this.getDirectionName(directionId)}
+                  name={this.getDirectionName(directionId, departures)}
                   departures={departures}
                   routes={this.state.routes}
                   now={this.state.now}
