@@ -30,7 +30,14 @@ const DOMAIN = '//timetableapi.ptv.vic.gov.au';
 const API_VERSION = '/v3';
 
 const MAX_RESULTS = 5;
-const ARGS = `?max_results=${MAX_RESULTS}&expand=stop&expand=direction&expand=disruption&devid=${DEV_ID}`;
+const ARGS = [
+  `max_results=${MAX_RESULTS}`,
+  'expand=stop',
+  'expand=direction',
+  'expand=disruption',
+  'expand=route',
+  `&devid=${DEV_ID}`,
+];
 
 const routeTypeMap = [
   <MetroTrainIcon className="train" />,
@@ -48,6 +55,7 @@ type Props = {
 
 export type Departure = {|
   run_id: number,
+  route_id: number,
   direction_id: number,
   scheduled_departure_utc: string,
   estimated_departure_utc: string | null,
@@ -57,6 +65,7 @@ type Direction = {|
   direction_id: number,
   route_id: number,
   direction_name: string,
+  name: string,
 |}
 
 type Disruption = {|
@@ -74,11 +83,18 @@ type Stop = {|
   stop_name: string,
 |}
 
+export type Route = {|
+  route_id: number,
+  route_name: string,
+  route_number: string,
+|}
+
 type DeparturesResponse = {
   departures: Array<Departure>,
   directions: { [string]: Direction },
   disruptions: { [string]: Disruption },
   stops: { [string]: Stop },
+  routes: { [string]: Route },
 }
 
 type State = {
@@ -86,6 +102,7 @@ type State = {
   directions: { [string]: Direction },
   disruptions: { [string]: Disruption },
   stops: { [string]: Stop },
+  routes: { [string]: Route },
   loading: boolean,
   now: Date,
 }
@@ -100,6 +117,7 @@ class PTVDeparturesBoard extends Component<Props, State> {
     stops: {},
     loading: true,
     now: new Date(),
+    routes: {},
   };
 
   componentDidMount() {
@@ -129,7 +147,7 @@ class PTVDeparturesBoard extends Component<Props, State> {
     if (this.props.routeId != null) {
       url += `/route/${this.props.routeId}`;
     }
-    url += ARGS;
+    url += `?${ARGS.join('&')}`;
     const signature = ptvHash(url, API_KEY);
     return `${DOMAIN}${url}&signature=${signature}`;
   }
@@ -144,11 +162,11 @@ class PTVDeparturesBoard extends Component<Props, State> {
     }
 
     const {
-      departures, directions, disruptions, stops,
+      departures, directions, disruptions, stops, routes,
     }: DeparturesResponse = await resp.json();
 
     this.setState({
-      departures, directions, disruptions, stops, loading: false,
+      departures, directions, disruptions, stops, routes, loading: false,
     });
   }
 
@@ -165,7 +183,7 @@ class PTVDeparturesBoard extends Component<Props, State> {
         departures.filter(d => (
           d.direction_id === directionId
           && new Date(d.estimated_departure_utc || d.scheduled_departure_utc) > now
-        )).slice(0, 2),
+        )),
       ]));
 
     return nextDepartures;
@@ -211,6 +229,7 @@ class PTVDeparturesBoard extends Component<Props, State> {
                   key={directionId}
                   name={this.getDirectionName(directionId)}
                   departures={departures}
+                  routes={this.state.routes}
                   now={this.state.now}
                   disruptions={this.disruptionsInDirection(directionId)}
                 />

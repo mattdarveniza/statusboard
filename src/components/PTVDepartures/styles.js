@@ -61,6 +61,18 @@ const DepartureSection = BoardSection.extend`
     font-size: 2em;
   }
 
+  .route-number {
+    verical-align: super;
+
+    &::before {
+      content: ' ('
+    }
+
+    &::after {
+      content: ')'
+    }
+  }
+
   .train {
     fill: #4fb8ff
   }

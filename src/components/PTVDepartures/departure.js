@@ -9,10 +9,11 @@ import { ReactComponent as ClockIcon } from '../../images/Clock.svg';
 // $FlowFixMe
 import { ReactComponent as WarningIcon } from '../../images/Warning.svg';
 
-import type { Departure } from '.';
+import type { Departure, Route } from '.';
 
 type Props = {
   departures: Array<Departure>,
+  routes: { [string]: Route },
   now: Date,
   name: string,
   disruptions: boolean,
@@ -43,30 +44,39 @@ function getDepartureDuration(
   );
 }
 
+function getRoute(
+  departure: Departure,
+  departures: Array<Departure>,
+  routes: { [string]: Route },
+) {
+  if (departures.some(d => d.route_id !== departure.route_id)) {
+    const route = routes[departure.route_id.toString()];
+    return route && <sup className="route-number">{route.route_number}</sup>;
+  }
+  return null;
+}
+
 const DirectionDepartures = ({
   departures,
   now,
   name,
   disruptions,
+  routes,
 }: Props) => (
   <section className="direction">
     <h2>To {name}</h2>
-    {departures.map((departure, i) => (
+    {departures.slice(0, 2).map((departure, i) => (
       <div
         className={`departing-duration${i === 0 ? ' next' : ''}`}
         key={departure ? departure.scheduled_departure_utc : i}
       >
-        {departure
-          ? (<>
-            {getDepartureDuration(departure, now)}
-            {!departure.estimated_departure_utc &&
-              <ClockIcon className="scheduled-indicator" />
-            }
-            {disruptions &&
-              <WarningIcon className="disruption-indicator" />
-            }
-          </>)
-          : '&ndash;'
+        {getDepartureDuration(departure, now)}
+        {getRoute(departure, departures, routes)}
+        {!departure.estimated_departure_utc &&
+          <ClockIcon className="scheduled-indicator" />
+        }
+        {disruptions &&
+          <WarningIcon className="disruption-indicator" />
         }
       </div>
     ))}
