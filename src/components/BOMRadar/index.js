@@ -9,7 +9,7 @@ import BOMRadarSection from './styles';
 const esprima = require('esprima');
 
 const LOOP_INTERVAL_SECONDS = 1;
-const REFRESH_INTERVAL_MINUTES = 5;
+const REFRESH_INTERVAL_MINUTES = 0.01;
 
 type Props = {
   id: string,
@@ -24,6 +24,7 @@ type State = {
 class BOMRadarBoard extends Component<Props, State> {
   radarLoopIntervalId: number;
   refreshIntervalId: number;
+  templateDOM: HTMLTemplateElement;
 
   constructor() {
     super();
@@ -32,6 +33,7 @@ class BOMRadarBoard extends Component<Props, State> {
       imageUrls: null,
       currentImageIndex: 0,
     };
+    this.templateDOM = document.createElement('template');
   }
 
   componentDidMount() {
@@ -55,11 +57,10 @@ class BOMRadarBoard extends Component<Props, State> {
     const htmlText = await response.text();
 
     // Inject contents into a template tag to create a DOM to query
-    const template = document.createElement('template');
-    template.innerHTML = htmlText.trim();
+    this.templateDOM.innerHTML = htmlText.trim();
 
     // Use queryseletcor and find to find the script tag we're looking for
-    const scripts = template.content.querySelectorAll('#content script');
+    const scripts = this.templateDOM.content.querySelectorAll('#content script');
     const imageNamesScript = [...scripts].find(script => (
       script.innerText
       && script.innerText.includes('theImageNames')));
