@@ -6,6 +6,7 @@ import { bgColor, textColor } from './consts';
 import Clock from './components/Clock';
 import PTVDepartures from './components/PTVDepartures';
 import BOMRadar from './components/BOMRadar';
+import SprintProgress from './components/SprintProgress';
 
 const Frame = styled.main`
   display: grid;
@@ -26,6 +27,7 @@ const App = () => (
     <PTVDepartures routeTypeId={0} stopId={1214} position={[1, 2]} />
     <PTVDepartures routeTypeId={1} stopId={2604} position={[1, 3, 2, 5]} />
     <BOMRadar id="IDR023" position={[2, 2, 4, 4]} />
+    <SprintProgress />
     {/* <BoardSection>Sample Board</BoardSection>
     <BoardSection>Sample Board</BoardSection>
     <BoardSection>Sample Board</BoardSection>
